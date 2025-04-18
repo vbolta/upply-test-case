@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "prettier": "exec prettier . --write",
+    "tests": "exec playwright test"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
