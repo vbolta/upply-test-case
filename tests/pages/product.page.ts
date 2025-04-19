@@ -10,6 +10,7 @@ export class productPage {
   readonly productDetailsLink: Locator;
   readonly quantityInput: Locator;
   readonly addToCartButton: Locator;
+  readonly addToCartModal: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -21,6 +22,9 @@ export class productPage {
       .first();
     this.quantityInput = page.locator("#quantity");
     this.addToCartButton = page.getByRole("button", { name: "Add to cart" });
+    this.addToCartModal = page
+      .locator("#cartModal")
+      .and(this.page.locator(".show"));
   }
 
   async goto() {
@@ -44,5 +48,6 @@ export class productPage {
     await this.quantityInput.click();
     await this.quantityInput.fill("3");
     await this.addToCartButton.click();
+    await this.addToCartModal.waitFor();
   }
 }

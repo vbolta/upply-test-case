@@ -6,7 +6,7 @@ The project is written with TypeScript and Playwright for the automation part.
 
 ```
 # If you don't have pnpm installed
-npm install -g pnpm 
+npm install -g pnpm
 
 # Install dependencies
 pnpm install
