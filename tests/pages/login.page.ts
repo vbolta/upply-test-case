@@ -45,7 +45,7 @@ export class loginPage {
     await this.page.goto("/login");
     // An improvement would be to directly add the cookies needed instead of clicking on the button
     const home = new homePage(this.page);
-    await home.cookiesConsentButton.click();
+    if (!process.env.CI) await home.cookiesConsentButton.click();
   }
 
   async signup({
