@@ -24,7 +24,7 @@ export class productPage {
     this.addToCartButton = page.getByRole("button", { name: "Add to cart" });
     this.addToCartModal = page
       .locator("#cartModal")
-      .and(this.page.locator(".show"));
+      .and(page.locator(".show"));
   }
 
   async goto() {
