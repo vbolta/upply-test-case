@@ -1,6 +1,7 @@
-import { test, expect, chromium } from "@playwright/test";
-import { userDetails } from "tests/helper/userDetails";
-import { loginPage } from "tests/pages/login.page";
+import { test, expect, type Page } from "@playwright/test";
+import { userDetails } from "@helper/helper";
+import { loginPage } from "@pages/login.page";
+import {productPage} from "@pages/product.page";
 
 const {
   firstName,
@@ -14,12 +15,19 @@ const {
   phoneNumber,
 } = userDetails;
 
-// test.beforeEach(async({page}) => {
-//   const login = new loginPage(page);
-//   await login.goto();
-// })
+test.describe.configure({ mode: 'serial' });
 
-test("Register User", async ({ page }) => {
+let page: Page;
+
+test.beforeAll(async ({ browser }) => {
+  page = await browser.newPage();
+});
+
+test.afterAll(async () => {
+  await page.close();
+});
+
+test("Sign Up - Register New User", async () => {
   const login = new loginPage(page);
   await login.signup({ firstName, lastName, email });
   await login.fillAccountInformation(
@@ -35,7 +43,8 @@ test("Register User", async ({ page }) => {
   await expect(page.getByText("Account Created!")).toBeVisible();
 });
 
-test("Login", async ({ page }) => {
+// Opening a new page for this scenario in order to directly start without being logged in
+test("Login - Connect with New User", async ({ page }) => {
   const login = new loginPage(page);
   await login.login({ email, password });
   await expect(
@@ -43,8 +52,14 @@ test("Login", async ({ page }) => {
   ).toBeVisible();
 });
 
-// await page.goto('https://www.automationexercise.com/account_created');
-// await page.getByRole('link', { name: ' Signup / Login' }).click();
+test("Product - Search for Product", async () => {
+  const productName = "T-Shirt";
+  const product = new productPage(page);
+  await product.searchProduct(productName);
+  // Make sure you find at least one product matching the product name searched
+  await expect(page.locator('.productinfo').getByRole("paragraph").filter({ hasText: productName }).first()).toBeVisible();
+});
+
 // await page.getByRole('link', { name: ' Products' }).click();
 // await page.getByRole('textbox', { name: 'Search Product' }).click();
 // await page.getByRole('textbox', { name: 'Search Product' }).fill('T-Shirt');

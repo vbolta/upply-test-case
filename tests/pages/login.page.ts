@@ -1,8 +1,7 @@
 import { type Locator, type Page } from "@playwright/test";
-
+import { homePage } from "@pages/home.page";
 export class loginPage {
   readonly page: Page;
-  readonly cookiesConsentButton: Locator;
   readonly signUpNameTextbox: Locator;
   readonly signUpEmailTextbox: Locator;
   readonly signUpButton: Locator;
@@ -19,10 +18,10 @@ export class loginPage {
   readonly loginEmailTextbox: Locator;
   readonly loginPasswordTextbox: Locator;
   readonly loginButton: Locator;
+  readonly productLink: Locator;
 
   constructor(page: Page) {
     this.page = page;
-    this.cookiesConsentButton = page.getByRole("button", { name: "Consent" });
     this.signUpNameTextbox = page.getByTestId("signup-name");
     this.signUpEmailTextbox = page.getByTestId("signup-email");
     this.signUpButton = page.getByTestId("signup-button");
@@ -39,12 +38,14 @@ export class loginPage {
     this.loginEmailTextbox = page.getByTestId("login-email");
     this.loginPasswordTextbox = page.getByTestId("login-password");
     this.loginButton = page.getByTestId("login-button");
+    this.productLink = page.locator("[href='/products']")
   }
 
   async goto() {
-    await this.page.goto("https://www.automationexercise.com/login");
+    await this.page.goto("/login");
     // An improvement would be to directly add the cookies needed instead of clicking on the button
-    await this.cookiesConsentButton.click();
+    const home = new homePage(this.page);
+    await home.cookiesConsentButton.click();
   }
 
   async signup({
