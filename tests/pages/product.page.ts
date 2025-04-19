@@ -6,11 +6,13 @@ export class productPage {
 	readonly productSearchInput: Locator;
 	readonly productSearchSubmitButton: Locator;
 	readonly searchedProductName: Locator;
+	readonly brandNameLink: Locator;
 
 	constructor(page: Page) {
 		this.page = page;
 		this.productSearchInput = page.locator("#search_product");
 		this.productSearchSubmitButton = page.locator("#submit_search");
+		this.brandNameLink = page.getByRole('link', { name: 'Mast & Harbour' })
 	}
 
 		async goto() {
@@ -22,5 +24,10 @@ export class productPage {
 		await this.productSearchInput.click();
 		await this.productSearchInput.fill(productName);
 		await this.productSearchSubmitButton.click();
+	}
+
+	async filterBrand(){
+		await this.goto();
+		await this.brandNameLink.click();
 	}
 }

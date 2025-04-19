@@ -17,10 +17,12 @@ const {
 
 test.describe.configure({ mode: 'serial' });
 
-let page: Page;
+let page: Page, login: loginPage, product: productPage;
 
 test.beforeAll(async ({ browser }) => {
   page = await browser.newPage();
+  login = new loginPage(page);
+  product = new productPage(page);
 });
 
 test.afterAll(async () => {
@@ -28,7 +30,6 @@ test.afterAll(async () => {
 });
 
 test("Sign Up - Register New User", async () => {
-  const login = new loginPage(page);
   await login.signup({ firstName, lastName, email });
   await login.fillAccountInformation(
     firstName,
@@ -45,7 +46,7 @@ test("Sign Up - Register New User", async () => {
 
 // Opening a new page for this scenario in order to directly start without being logged in
 test("Login - Connect with New User", async ({ page }) => {
-  const login = new loginPage(page);
+  login = new loginPage(page);
   await login.login({ email, password });
   await expect(
     page.getByText(`Logged in as ${firstName} ${lastName}`),
@@ -54,10 +55,15 @@ test("Login - Connect with New User", async ({ page }) => {
 
 test("Product - Search for Product", async () => {
   const productName = "T-Shirt";
-  const product = new productPage(page);
   await product.searchProduct(productName);
   // Make sure you find at least one product matching the product name searched
   await expect(page.locator('.productinfo').getByRole("paragraph").filter({ hasText: productName }).first()).toBeVisible();
+});
+
+test("Product - Filter by Brand", async () => {
+  await product.filterBrand();
+  // Make sure you find at least one product matching the product name searched
+  await expect(page.getByRole('heading', { name: 'Brand - Mast & Harbour Products' })).toBeVisible();
 });
 
 // await page.getByRole('link', { name: ' Products' }).click();
