@@ -7,12 +7,18 @@ export class productPage {
 	readonly productSearchSubmitButton: Locator;
 	readonly searchedProductName: Locator;
 	readonly brandNameLink: Locator;
+	readonly productDetailsLink: Locator;
+	readonly quantityInput: Locator;
+	readonly addToCartButton: Locator;
 
 	constructor(page: Page) {
 		this.page = page;
 		this.productSearchInput = page.locator("#search_product");
 		this.productSearchSubmitButton = page.locator("#submit_search");
-		this.brandNameLink = page.getByRole('link', { name: 'Mast & Harbour' })
+		this.brandNameLink = page.getByRole('link', { name: 'Mast & Harbour' });
+		this.productDetailsLink = page.getByRole('link', { name: 'View Product' }).first();
+		this.quantityInput = page.locator('#quantity');
+		this.addToCartButton = page.getByRole('button', { name: 'Add to cart' });
 	}
 
 		async goto() {
@@ -29,5 +35,12 @@ export class productPage {
 	async filterBrand(){
 		await this.goto();
 		await this.brandNameLink.click();
+	}
+
+	async addToCart(){
+		await this.productDetailsLink.click();
+		await this.quantityInput.click();
+		await this.quantityInput.fill('3');
+		await this.addToCartButton.click();
 	}
 }

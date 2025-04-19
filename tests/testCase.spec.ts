@@ -66,25 +66,11 @@ test("Product - Filter by Brand", async () => {
   await expect(page.getByRole('heading', { name: 'Brand - Mast & Harbour Products' })).toBeVisible();
 });
 
-// await page.getByRole('link', { name: ' Products' }).click();
-// await page.getByRole('textbox', { name: 'Search Product' }).click();
-// await page.getByRole('textbox', { name: 'Search Product' }).fill('T-Shirt');
-// await page.getByRole('button', { name: '' }).click();
-// await page.getByRole('link', { name: '(3) Mast & Harbour' }).click();
-// await page.locator('div:nth-child(5) > .product-image-wrapper > .single-products > .product-overlay > .overlay-content > .btn').click();
-// await page.getByRole('link', { name: 'View Cart' }).click();
-// await page.getByRole('button', { name: '1' }).click();
-// await page.getByRole('button', { name: '1' }).click();
-// await page.getByRole('cell', { name: '' }).locator('a').click();
-// await page.getByRole('link', { name: ' Products' }).click();
-// await page.getByRole('textbox', { name: 'Search Product' }).click();
-// await page.getByRole('textbox', { name: 'Search Product' }).fill('T-Shirt');
-// await page.getByRole('button', { name: '' }).click();
-// await page.getByRole('link', { name: '(3) Mast & Harbour' }).click();
-// await page.getByRole('link', { name: ' View Product' }).nth(2).click();
-// await page.locator('#quantity').click();
-// await page.locator('#quantity').fill('3');
-// await page.getByRole('button', { name: ' Add to cart' }).click();
+test("Product - Add Product to Cart", async () => {
+  await product.addToCart();
+  await expect(page.getByText('Your product has been added to cart.')).toBeVisible();
+});
+
 // await page.getByRole('link', { name: 'View Cart' }).click();
 // await page.getByText('Proceed To Checkout').click();
 // await page.getByRole('link', { name: 'Place Order' }).click();
