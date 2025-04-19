@@ -13,9 +13,9 @@ export const userDetails = {
   phoneNumber: faker.phone.number(),
 };
 
-const creditCardDetails = {
+export const creditCardDetails = {
   creditCardNumber: faker.finance.creditCardNumber(),
-  creditCardCVV: faker.finance.creditCardCVV(),
-  expiryMonth: faker.number.int({ min: 1, max: 12 }),
-  expiryYear: faker.number.int({ min: 2025, max: 2030 }),
+  creditCardCVC: faker.finance.creditCardCVV(),
+  expiryMonth: faker.number.int({ min: 1, max: 12 }).toString(),
+  expiryYear: faker.number.int({ min: 2025, max: 2030 }).toString(),
 };

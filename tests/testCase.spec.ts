@@ -1,7 +1,10 @@
 import { test, expect, type Page } from "@playwright/test";
-import { userDetails } from "@helper/helper";
+import { creditCardDetails, userDetails } from "@helper/helper";
 import { loginPage } from "@pages/login.page";
-import {productPage} from "@pages/product.page";
+import { productPage } from "@pages/product.page";
+import { checkOutPage } from "@pages/checkout.page";
+
+test.describe.configure({ mode: "serial" });
 
 const {
   firstName,
@@ -15,14 +18,16 @@ const {
   phoneNumber,
 } = userDetails;
 
-test.describe.configure({ mode: 'serial' });
+const { creditCardNumber, creditCardCVC, expiryMonth, expiryYear } =
+  creditCardDetails;
 
-let page: Page, login: loginPage, product: productPage;
+let page: Page, login: loginPage, product: productPage, checkOut: checkOutPage;
 
 test.beforeAll(async ({ browser }) => {
   page = await browser.newPage();
   login = new loginPage(page);
   product = new productPage(page);
+  checkOut = new checkOutPage(page);
 });
 
 test.afterAll(async () => {
@@ -57,26 +62,39 @@ test("Product - Search for Product", async () => {
   const productName = "T-Shirt";
   await product.searchProduct(productName);
   // Make sure you find at least one product matching the product name searched
-  await expect(page.locator('.productinfo').getByRole("paragraph").filter({ hasText: productName }).first()).toBeVisible();
+  await expect(
+    page
+      .locator(".productinfo")
+      .getByRole("paragraph")
+      .filter({ hasText: productName })
+      .first(),
+  ).toBeVisible();
 });
 
 test("Product - Filter by Brand", async () => {
   await product.filterBrand();
-  // Make sure you find at least one product matching the product name searched
-  await expect(page.getByRole('heading', { name: 'Brand - Mast & Harbour Products' })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Brand - Mast & Harbour Products" }),
+  ).toBeVisible();
 });
 
 test("Product - Add Product to Cart", async () => {
   await product.addToCart();
-  await expect(page.getByText('Your product has been added to cart.')).toBeVisible();
+  await expect(
+    page.getByText("Your product has been added to cart."),
+  ).toBeVisible();
 });
 
-// await page.getByRole('link', { name: 'View Cart' }).click();
-// await page.getByText('Proceed To Checkout').click();
-// await page.getByRole('link', { name: 'Place Order' }).click();
-// await page.getByTestId('name-on-card').click();
-// await page.getByTestId('card-number').click();
-// await page.getByTestId('cvc').click();
-// await page.getByTestId('expiry-month').click();
-// await page.getByTestId('expiry-year').click();
-// await page.getByTestId('pay-button').click();
+test("Cart - Finalize Checkout", async () => {
+  await checkOut.finalizeCheckout({
+    firstName,
+    lastName,
+    creditCardNumber,
+    creditCardCVC,
+    expiryMonth,
+    expiryYear,
+  });
+  await expect(
+    page.getByText("Congratulations! Your order has been confirmed!"),
+  ).toBeVisible();
+});

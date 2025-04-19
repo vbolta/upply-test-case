@@ -38,7 +38,7 @@ export class loginPage {
     this.loginEmailTextbox = page.getByTestId("login-email");
     this.loginPasswordTextbox = page.getByTestId("login-password");
     this.loginButton = page.getByTestId("login-button");
-    this.productLink = page.locator("[href='/products']")
+    this.productLink = page.locator("[href='/products']");
   }
 
   async goto() {
@@ -58,7 +58,9 @@ export class loginPage {
     email: string;
   }) {
     await this.goto();
+    await this.signUpNameTextbox.click();
     await this.signUpNameTextbox.fill(`${firstName} ${lastName}`);
+    await this.signUpEmailTextbox.click();
     await this.signUpEmailTextbox.fill(email);
     await this.signUpButton.click();
   }
@@ -74,13 +76,21 @@ export class loginPage {
     phoneNumber: string,
   ) {
     await this.genderRadioOption1.click();
+    await this.passwordTextbox.click();
     await this.passwordTextbox.fill(password);
+    await this.firstNameTextbox.click();
     await this.firstNameTextbox.fill(firstName);
+    await this.lastNameTextbox.click();
     await this.lastNameTextbox.fill(lastName);
+    await this.addressTextbox.click();
     await this.addressTextbox.fill(address);
+    await this.stateTextbox.click();
     await this.stateTextbox.fill(state);
+    await this.cityTextbox.click();
     await this.cityTextbox.fill(city);
+    await this.zipcodeTextbox.click();
     await this.zipcodeTextbox.fill(zipcode);
+    await this.mobileNumberTextbox.click();
     await this.mobileNumberTextbox.fill(phoneNumber);
     await this.createAccountButton.click();
   }
