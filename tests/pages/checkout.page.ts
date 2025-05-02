@@ -1,6 +1,7 @@
+import {HomePage} from "@pages/home.page";
 import { type Locator, type Page } from "@playwright/test";
 
-export class checkOutPage {
+export class CheckOutPage {
   readonly page: Page;
   readonly proceedCheckoutButton: Locator;
   readonly placeOrderButton: Locator;

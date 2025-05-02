@@ -1,6 +1,6 @@
 import { type Locator, type Page } from "@playwright/test";
-import { homePage } from "@pages/home.page";
-export class loginPage {
+import { HomePage } from "@pages/home.page";
+export class LoginPage extends HomePage {
   readonly page: Page;
   readonly signUpNameTextbox: Locator;
   readonly signUpEmailTextbox: Locator;
@@ -19,8 +19,10 @@ export class loginPage {
   readonly loginPasswordTextbox: Locator;
   readonly loginButton: Locator;
   readonly productLink: Locator;
+  account: Locator;
 
   constructor(page: Page) {
+    super(page);
     this.page = page;
     this.signUpNameTextbox = page.getByTestId("signup-name");
     this.signUpEmailTextbox = page.getByTestId("signup-email");
@@ -39,12 +41,13 @@ export class loginPage {
     this.loginPasswordTextbox = page.getByTestId("login-password");
     this.loginButton = page.getByTestId("login-button");
     this.productLink = page.locator("[href='/products']");
+    this.account = page.getByText("Account Created!");
   }
 
   async goto() {
     await this.page.goto("/login");
     // An improvement would be to directly add the cookies needed instead of clicking on the button
-    const home = new homePage(this.page);
+    const home = new HomePage(this.page);
     if (!process.env.CI) await home.cookiesConsentButton.click();
   }
 

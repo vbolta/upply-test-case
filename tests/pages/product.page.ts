@@ -1,7 +1,7 @@
-import { homePage } from "@pages/home.page";
+import {HomePage} from "@pages/home.page";
 import { type Locator, type Page } from "@playwright/test";
 
-export class productPage {
+export class ProductPage {
   readonly page: Page;
   readonly productSearchInput: Locator;
   readonly productSearchSubmitButton: Locator;
@@ -22,9 +22,7 @@ export class productPage {
       .first();
     this.quantityInput = page.locator("#quantity");
     this.addToCartButton = page.getByRole("button", { name: "Add to cart" });
-    this.addToCartModal = page
-      .locator("#cartModal")
-      .and(page.locator(".show"));
+    this.addToCartModal = page.locator("#cartModal").and(page.locator(".show"));
   }
 
   async goto() {

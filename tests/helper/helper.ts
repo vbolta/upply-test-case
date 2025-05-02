@@ -9,7 +9,7 @@ export const userDetails = {
   state: faker.location.state(),
   city: faker.location.city(),
   zipcode: faker.location.zipCode(),
-  mobileNumber: faker.location.zipCode(),
+  mobileNumber: faker.phone.number(),
   phoneNumber: faker.phone.number(),
 };
 

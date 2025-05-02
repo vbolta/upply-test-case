@@ -4,7 +4,8 @@
     "baseUrl": ".",
     "paths": {
       "@helper/*": ["tests/helper/*"],
-      "@pages/*": ["tests/pages/*"]
+      "@pages/*": ["tests/pages/*"],
+      "@fixture": ["tests/fixtureExtension"]
     }
   }
 }

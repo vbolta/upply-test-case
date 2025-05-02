@@ -1,8 +1,8 @@
-import { test, expect, type Page } from "@playwright/test";
 import { creditCardDetails, userDetails } from "@helper/helper";
-import { loginPage } from "@pages/login.page";
-import { productPage } from "@pages/product.page";
-import { checkOutPage } from "@pages/checkout.page";
+import {test, expect, type Page} from "@fixture";
+import {CheckOutPage} from "@pages/checkout.page";
+import {LoginPage} from "@pages/login.page";
+import {ProductPage} from "@pages/product.page";
 
 test.describe.configure({ mode: "serial" });
 
@@ -21,13 +21,13 @@ const {
 const { creditCardNumber, creditCardCVC, expiryMonth, expiryYear } =
   creditCardDetails;
 
-let page: Page, login: loginPage, product: productPage, checkOut: checkOutPage;
+let page: Page, login: LoginPage, product: ProductPage, checkOut: CheckOutPage;
 
 test.beforeAll(async ({ browser }) => {
   page = await browser.newPage();
-  login = new loginPage(page);
-  product = new productPage(page);
-  checkOut = new checkOutPage(page);
+  login = new LoginPage(page);
+  product = new ProductPage(page);
+  checkOut = new CheckOutPage(page);
 });
 
 test.afterAll(async () => {
@@ -50,8 +50,7 @@ test("Sign Up - Register New User", async () => {
 });
 
 // Opening a new page for this scenario in order to directly start without being logged in
-test("Login - Connect with New User", async ({ page }) => {
-  login = new loginPage(page);
+test("Login - Connect with New User", async ({ page , login}) => {
   await login.login({ email, password });
   await expect(
     page.getByText(`Logged in as ${firstName} ${lastName}`),
